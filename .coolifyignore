@@ -1,0 +1,7 @@
+.git
+node_modules
+.cursor
+*.log
+dist
+attached_assets
+docs 

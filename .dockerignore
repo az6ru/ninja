@@ -1,0 +1,10 @@
+.git
+node_modules
+.cursor
+*.log
+dist
+.coolifyignore
+README.md
+.gitignore
+attached_assets
+docs 
