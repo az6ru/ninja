@@ -7,6 +7,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
+import { YandexAds } from '@/components/YandexAds';
 
 export default function FaqPage() {
   return (
@@ -14,7 +15,7 @@ export default function FaqPage() {
       <Helmet>
         <title>Часто задаваемые вопросы об оптимизации изображений — ImageNinja</title>
         <meta name="description" content="Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое." />
-        <meta property="og:image" content="/img/seo-cover.webp" />
+        <meta property="og:image" content="/screenshots/seo-cover.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Helmet>
@@ -24,7 +25,7 @@ export default function FaqPage() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-10 relative rounded-lg overflow-hidden shadow-lg">
           <img 
-            src="/img/seo-cover.webp" 
+            src="/screenshots/seo-cover.webp" 
             alt="Оптимизация изображений с ImageNinja" 
             className="w-full h-64 object-cover"
             width="1200"
@@ -50,6 +51,10 @@ export default function FaqPage() {
             question="Сохраняются ли метаданные EXIF при сжатии?" 
             answer="Да, наш сервис позволяет сохранять метаданные EXIF при сжатии. Вы можете выбрать опцию 'Сохранить EXIF' перед оптимизацией, и все важные метаданные (геолокация, настройки камеры, авторские права) будут сохранены в оптимизированном файле." 
           />
+          
+          <div className="my-8">
+            <YandexAds blockId="R-A-15762893-1" />
+          </div>
           
           <FaqItem 
             question="Есть ли ограничения на размер загружаемых файлов?" 
