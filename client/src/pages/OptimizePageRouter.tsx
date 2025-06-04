@@ -8,11 +8,18 @@ import { Helmet } from 'react-helmet-async'
 import { pages } from '@/config/pages.config'
 import { OptimizePage } from '@/components/OptimizePage'
 import NotFound from './not-found'
+import { useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export function OptimizePageRouter() {
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
   const slug = pathname === '/' ? '' : pathname.replace(/^\//, '')
   const page = pages.find(p => p.slug === slug)
+
+  // Скролл вверх при переходе на новую страницу
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [pathname])
 
   if (!page) return <NotFound />
 
@@ -59,7 +66,17 @@ export function OptimizePageRouter() {
         <link rel="icon" href="/favicon.ico" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
-      <OptimizePage {...page} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <OptimizePage {...page} />
+        </motion.div>
+      </AnimatePresence>
     </>
   )
 } 
