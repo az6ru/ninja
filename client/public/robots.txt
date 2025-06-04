@@ -1,0 +1,9 @@
+# https://imageninja.ru/
+User-agent: *
+Allow: /
+
+# Разрешаем индексацию всех страниц
+Disallow:
+
+# Карта сайта
+Sitemap: https://imageninja.ru/sitemap.xml 

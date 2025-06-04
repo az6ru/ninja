@@ -41,7 +41,7 @@ export function OptimizePageRouter() {
       'availability': 'https://schema.org/InStock'
     },
     'inLanguage': 'ru',
-    'image': baseUrl + '/screenshots/seo-cover.webp',
+    'image': baseUrl + '/img/seo-cover.webp',
     'sameAs': [baseUrl]
   }
 
@@ -58,11 +58,11 @@ export function OptimizePageRouter() {
         <meta property="og:title" content={page.title} />
         <meta property="og:description" content={page.description} />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content={baseUrl + '/screenshots/seo-cover.webp'} />
+        <meta property="og:image" content={baseUrl + '/img/seo-cover.webp'} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={page.title} />
         <meta name="twitter:description" content={page.description} />
-        <meta name="twitter:image" content={baseUrl + '/screenshots/seo-cover.webp'} />
+        <meta name="twitter:image" content={baseUrl + '/img/seo-cover.webp'} />
         <meta name="theme-color" content="#312e81" />
         <link rel="icon" href="/favicon.ico" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

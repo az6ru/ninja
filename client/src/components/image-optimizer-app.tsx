@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import type { ImageFile, OptimizationSettings } from "@shared/schema";
 import { Header } from "@/components/Header";
+import { sendYandexMetrikaGoal, YandexMetrikaGoal } from "@/lib/yandex-metrika";
 
 export function ImageOptimizerApp() {
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -51,6 +52,13 @@ export function ImageOptimizerApp() {
     }));
 
     setImages(prev => [...prev, ...newImages]);
+    
+    // Отправляем событие в Яндекс Метрику при загрузке нескольких файлов
+    if (acceptedFiles.length > 1) {
+      sendYandexMetrikaGoal(YandexMetrikaGoal.BULK_UPLOAD, {
+        count: acceptedFiles.length
+      });
+    }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -64,6 +72,15 @@ export function ImageOptimizerApp() {
   const removeImage = (id: string) => {
     setImages(prev => prev.filter(img => img.id !== id));
   };
+
+  // При изменении формата отправляем событие в Яндекс Метрику
+  useEffect(() => {
+    if (selectedFormat !== 'keep') {
+      sendYandexMetrikaGoal(YandexMetrikaGoal.CHANGE_FORMAT, {
+        format: selectedFormat
+      });
+    }
+  }, [selectedFormat]);
 
   const optimizeImages = async () => {
     if (images.length === 0) return;
@@ -142,6 +159,15 @@ export function ImageOptimizerApp() {
                 optimizedBlob,
               } : img
             ));
+
+            // Отправляем событие в Яндекс Метрику при успешной оптимизации
+            sendYandexMetrikaGoal(YandexMetrikaGoal.OPTIMIZE_IMAGE, {
+              format: getOutputFormat(),
+              quality: settings.quality,
+              originalSize: image.file.size,
+              optimizedSize: result.optimizedSize,
+              compressionRatio: result.compressionRatio
+            });
           } else {
             throw new Error(result.error || 'Optimization failed');
           }
@@ -209,6 +235,15 @@ export function ImageOptimizerApp() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    // Отправляем событие в Яндекс Метрику при скачивании изображения
+    sendYandexMetrikaGoal(YandexMetrikaGoal.DOWNLOAD_IMAGE, {
+      originalSize: image.originalSize,
+      optimizedSize: image.optimizedSize || 0,
+      format: selectedFormat === 'keep' 
+        ? image.file.type.split('/')[1]
+        : selectedFormat
+    });
   };
 
   function blobToBase64(blob: Blob): Promise<string> {
@@ -279,6 +314,12 @@ export function ImageOptimizerApp() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       setTimeout(() => setZipProgress(null), 1000);
+
+      // Отправляем событие в Яндекс Метрику при скачивании ZIP-архива
+      sendYandexMetrikaGoal(YandexMetrikaGoal.DOWNLOAD_ZIP, {
+        count: completedImages.length,
+        totalSize: blob.size
+      });
     } catch (error) {
       setZipProgress(null);
       setZipError(error instanceof Error ? error.message : String(error));
