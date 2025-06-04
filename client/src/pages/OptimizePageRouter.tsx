@@ -7,6 +7,7 @@
 import { Helmet } from 'react-helmet-async'
 import { pages } from '@/config/pages.config'
 import { OptimizePage } from '@/components/OptimizePage'
+import { Header } from '@/components/Header'
 import NotFound from './not-found'
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -66,11 +67,15 @@ export function OptimizePageRouter() {
         <link rel="icon" href="/favicon.ico" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+      
+      {/* Хедер вне анимации, чтобы он оставался неподвижным */}
+      <Header />
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
