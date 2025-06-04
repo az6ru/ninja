@@ -7,8 +7,9 @@
 import type { OptimizePageConfig } from '../config/pages.config'
 import { CheckCircle } from "lucide-react";
 import { ImageOptimizerApp } from './image-optimizer-app.tsx'
-import { Footer } from './Footer'
+import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
+import { YandexAds } from '@/components/YandexAds'
 
 export function OptimizePage(props: OptimizePageConfig) {
   return (
@@ -65,6 +66,12 @@ export function OptimizePage(props: OptimizePageConfig) {
       >
         <ImageOptimizerApp />
       </motion.div>
+      
+      {/* Рекламный блок после основного контента */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+        <YandexAds blockId="R-A-15762893-1" className="mb-8" />
+      </div>
+      
       <Footer />
     </>
   )

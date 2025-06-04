@@ -7,6 +7,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
+import { YandexAds } from '@/components/YandexAds';
 
 export default function FaqPage() {
   return (
@@ -50,6 +51,10 @@ export default function FaqPage() {
             question="Сохраняются ли метаданные EXIF при сжатии?" 
             answer="Да, наш сервис позволяет сохранять метаданные EXIF при сжатии. Вы можете выбрать опцию 'Сохранить EXIF' перед оптимизацией, и все важные метаданные (геолокация, настройки камеры, авторские права) будут сохранены в оптимизированном файле." 
           />
+          
+          <div className="my-8">
+            <YandexAds blockId="R-A-15762893-1" />
+          </div>
           
           <FaqItem 
             question="Есть ли ограничения на размер загружаемых файлов?" 
