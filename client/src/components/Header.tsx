@@ -14,9 +14,7 @@ const navLinks = [
   { href: '/compress-webp-online', label: 'WebP' },
   { href: '/compress-avif-online', label: 'AVIF' },
   { href: '/bulk-image-compression', label: 'Пакетное сжатие' },
-  { href: '/blog/kak-szhat-foto', label: 'Блог' },
   { href: '/faq', label: 'FAQ' },
-  { href: '/api', label: 'API' },
 ]
 
 export function Header() {
