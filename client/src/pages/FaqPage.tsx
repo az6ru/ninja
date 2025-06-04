@@ -15,7 +15,7 @@ export default function FaqPage() {
       <Helmet>
         <title>Часто задаваемые вопросы об оптимизации изображений — ImageNinja</title>
         <meta name="description" content="Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое." />
-        <meta property="og:image" content="/img/seo-cover.webp" />
+        <meta property="og:image" content="/assets/images/seo-cover.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Helmet>
@@ -25,7 +25,7 @@ export default function FaqPage() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-10 relative rounded-lg overflow-hidden shadow-lg">
           <img 
-            src="/img/seo-cover.webp" 
+            src="/assets/images/seo-cover.webp" 
             alt="Оптимизация изображений с ImageNinja" 
             className="w-full h-64 object-cover"
             width="1200"
