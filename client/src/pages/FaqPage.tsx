@@ -10,14 +10,31 @@ import { Header } from '@/components/Header';
 import { YandexAds } from '@/components/YandexAds';
 
 export default function FaqPage() {
+  const baseUrl = 'https://imageninja.ru';
+  const pageUrl = baseUrl + '/faq';
+  const title = 'Часто задаваемые вопросы об оптимизации изображений — ImageNinja';
+  const description = 'Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое.';
+  
   return (
     <>
       <Helmet>
-        <title>Часто задаваемые вопросы — ImageNinja</title>
-        <meta name="description" content="Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое." />
-        <meta property="og:image" content="/assets/images/seo-cover.webp" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={pageUrl} />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ru_RU" />
+        <meta property="og:site_name" content="ImageNinja" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={baseUrl + '/assets/images/seo-cover.webp'} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={baseUrl + '/assets/images/seo-cover.webp'} />
       </Helmet>
       
       <Header />
@@ -26,7 +43,7 @@ export default function FaqPage() {
         <div className="mb-10 relative rounded-lg overflow-hidden shadow-lg">
           <img 
             src="/assets/images/seo-cover.webp" 
-            alt="ImageNinja" 
+            alt="Оптимизация изображений с ImageNinja" 
             className="w-full h-64 object-cover"
             width="1200"
             height="630"
