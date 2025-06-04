@@ -30,7 +30,7 @@ export function OptimizePageRouter() {
     '@context': 'https://schema.org',
     '@type': 'OnlineTool',
     'name': page.title,
-    'description': page.meta.description,
+    'description': page.description,
     'url': pageUrl,
     'applicationCategory': 'PhotoEditingApplication',
     'operatingSystem': 'All',
@@ -48,20 +48,20 @@ export function OptimizePageRouter() {
   return (
     <>
       <Helmet>
-        <title>{page.meta.title}</title>
-        <meta name="description" content={page.meta.description} />
+        <title>{page.title}</title>
+        <meta name="description" content={page.description} />
         <link rel="canonical" href={pageUrl} />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ru_RU" />
         <meta property="og:site_name" content="ImageNinja" />
-        <meta property="og:title" content={page.meta.title} />
-        <meta property="og:description" content={page.meta.description} />
+        <meta property="og:title" content={page.title} />
+        <meta property="og:description" content={page.description} />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:image" content={baseUrl + '/screenshots/seo-cover.webp'} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={page.meta.title} />
-        <meta name="twitter:description" content={page.meta.description} />
+        <meta name="twitter:title" content={page.title} />
+        <meta name="twitter:description" content={page.description} />
         <meta name="twitter:image" content={baseUrl + '/screenshots/seo-cover.webp'} />
         <meta name="theme-color" content="#312e81" />
         <link rel="icon" href="/favicon.ico" />

@@ -14,8 +14,8 @@ export default function ImageOptimizer() {
   return (
     <>
       <Helmet>
-        <title>{page.meta.title}</title>
-        <meta name="description" content={page.meta.description} />
+        <title>{page.title}</title>
+        <meta name="description" content={page.description} />
       </Helmet>
       <OptimizePage {...page} />
     </>

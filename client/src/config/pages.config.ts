@@ -12,10 +12,6 @@ export interface OptimizePageConfig {
   h1: string
   subtitle: string
   bullets: string[]
-  meta: {
-    title: string
-    description: string
-  }
 }
 
 export const pages: OptimizePageConfig[] = [
@@ -25,11 +21,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Сжимайте изображения JPEG, PNG, WebP, AVIF без потери качества. Поддержка EXIF и пакетная обработка',
     h1: 'Сжимайте изображения без потери качества',
     subtitle: 'Быстрое и бесплатное сжатие изображений (JPEG, PNG, WebP, AVIF) без потерь качества. Просто перетащите файл, выберите параметры и скачайте результат!',
-    bullets: ['Без регистрации', 'Пакетная обработка', 'Множество форматов'],
-    meta: {
-      title: 'Сжать фото онлайн без потери качества | Оптимизация изображений',
-      description: 'Бесплатный сервис для оптимизации изображений. Уменьшайте размер фото без потери качества до 80%. Поддержка JPG, PNG, WebP и AVIF.'
-    }
+    bullets: ['Без регистрации', 'Пакетная обработка', 'Множество форматов']
   },
   {
     slug: 'compress-jpeg-online',
@@ -37,11 +29,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Сжимаем JPEG без потерь качества, быстро, с сохранением EXIF',
     h1: 'Сжать JPEG изображение онлайн',
     subtitle: 'Быстрое сжатие JPEG без потери качества и с сохранением метаданных',
-    bullets: ['Без потерь', 'Сохранение EXIF', 'Быстрая обработка'],
-    meta: {
-      title: 'Сжать JPEG онлайн без потери качества',
-      description: 'Онлайн-сервис для сжатия JPEG без потерь качества и с сохранением EXIF-метаданных.'
-    }
+    bullets: ['Без потерь', 'Сохранение EXIF', 'Быстрая обработка']
   },
   {
     slug: 'compress-png-online',
@@ -49,11 +37,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Уменьшите PNG без потери прозрачности. Пакетная обработка',
     h1: 'Сжатие PNG без потерь',
     subtitle: 'Поддержка прозрачности, высокая точность, пакетный режим',
-    bullets: ['Прозрачность сохраняется', 'Без потерь', 'Пакетная загрузка'],
-    meta: {
-      title: 'Сжать PNG онлайн без потери качества',
-      description: 'Сервис для сжатия PNG с сохранением прозрачности и качества.'
-    }
+    bullets: ['Прозрачность сохраняется', 'Без потерь', 'Пакетная загрузка']
   },
   {
     slug: 'compress-webp-online',
@@ -61,11 +45,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Онлайн-сжатие WebP с минимальными потерями. Поддержка API',
     h1: 'Сжатие WebP изображений онлайн',
     subtitle: 'Эффективное уменьшение WebP без потерь, поддержка API',
-    bullets: ['WebP поддержка', 'Без потерь', 'API доступ'],
-    meta: {
-      title: 'Сжать WebP онлайн',
-      description: 'Сервис для эффективного сжатия WebP изображений онлайн.'
-    }
+    bullets: ['WebP поддержка', 'Без потерь', 'API доступ']
   },
   {
     slug: 'compress-avif-online',
@@ -73,11 +53,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Эффективно сжимаем AVIF. Поддержка новых форматов, API',
     h1: 'Онлайн сжатие AVIF изображений',
     subtitle: 'Сжимаем AVIF с сохранением качества. Быстро и просто',
-    bullets: ['Поддержка AVIF', 'Современные алгоритмы', 'API'],
-    meta: {
-      title: 'Сжать AVIF онлайн',
-      description: 'Сервис для сжатия AVIF изображений без потери качества.'
-    }
+    bullets: ['Поддержка AVIF', 'Современные алгоритмы', 'API']
   },
   {
     slug: 'bulk-image-compression',
@@ -85,11 +61,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Сжимайте сразу много изображений за один раз. Поддержка JPEG, PNG, WebP, AVIF.',
     h1: 'Пакетное сжатие изображений',
     subtitle: 'Загрузите несколько файлов и получите оптимизированные изображения одним архивом.',
-    bullets: ['Пакетная обработка', 'Без потери качества', 'ZIP-архив на выходе'],
-    meta: {
-      title: 'Пакетное сжатие изображений онлайн',
-      description: 'Сервис для пакетного сжатия изображений JPEG, PNG, WebP, AVIF. Скачайте все файлы одним архивом.'
-    }
+    bullets: ['Пакетная обработка', 'Без потери качества', 'ZIP-архив на выходе']
   },
   {
     slug: 'compress-without-quality-loss',
@@ -97,11 +69,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Оптимизация изображений без видимых потерь. Сохраняем детали и метаданные.',
     h1: 'Сжатие без потери качества',
     subtitle: 'Максимальное сжатие без ухудшения визуального качества.',
-    bullets: ['Без потерь', 'Сохранение EXIF', 'Высокое качество'],
-    meta: {
-      title: 'Сжать фото без потери качества',
-      description: 'Онлайн-сервис для сжатия изображений без потери качества. Сохраняем детали и метаданные.'
-    }
+    bullets: ['Без потерь', 'Сохранение EXIF', 'Высокое качество']
   },
   {
     slug: 'compress-with-exif',
@@ -109,11 +77,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Сохраняйте все метаданные при сжатии изображений.',
     h1: 'Сжатие с сохранением EXIF',
     subtitle: 'Ваши фото останутся с геометками и авторством.',
-    bullets: ['Сохранение EXIF', 'Безопасно', 'Для профи и любителей'],
-    meta: {
-      title: 'Сжать фото с сохранением EXIF',
-      description: 'Сервис для сжатия изображений с сохранением EXIF-метаданных.'
-    }
+    bullets: ['Сохранение EXIF', 'Безопасно', 'Для профи и любителей']
   },
   {
     slug: 'compare-image-quality',
@@ -121,11 +85,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Сравните оригинал и оптимизированное изображение онлайн.',
     h1: 'Сравнение качества изображений',
     subtitle: 'Визуальное сравнение до и после оптимизации.',
-    bullets: ['Сравнение до/после', 'Оценка качества', 'Прозрачность изменений'],
-    meta: {
-      title: 'Сравнение качества изображений',
-      description: 'Инструмент для сравнения качества изображений до и после сжатия.'
-    }
+    bullets: ['Сравнение до/после', 'Оценка качества', 'Прозрачность изменений']
   },
   {
     slug: 'convert-to-webp',
@@ -133,11 +93,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Преобразуйте изображения JPEG, PNG, AVIF в WebP для ускорения сайта.',
     h1: 'Конвертация в WebP',
     subtitle: 'Быстрое и бесплатное преобразование в современный формат WebP.',
-    bullets: ['WebP для сайта', 'Меньший размер', 'Высокое качество'],
-    meta: {
-      title: 'Конвертировать в WebP онлайн',
-      description: 'Онлайн-конвертер изображений в WebP. Поддержка JPEG, PNG, AVIF.'
-    }
+    bullets: ['WebP для сайта', 'Меньший размер', 'Высокое качество']
   },
   {
     slug: 'convert-avif-to-jpeg',
@@ -145,11 +101,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Преобразуйте AVIF в JPEG для совместимости с любыми устройствами.',
     h1: 'AVIF → JPEG онлайн',
     subtitle: 'Конвертация AVIF в JPEG без потери качества.',
-    bullets: ['AVIF в JPEG', 'Совместимость', 'Без потерь'],
-    meta: {
-      title: 'Конвертировать AVIF в JPEG онлайн',
-      description: 'Онлайн-конвертер AVIF в JPEG. Быстро, бесплатно, без потери качества.'
-    }
+    bullets: ['AVIF в JPEG', 'Совместимость', 'Без потерь']
   },
   {
     slug: 'convert-webp-to-png',
@@ -157,11 +109,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Преобразуйте WebP в PNG для работы с любыми редакторами.',
     h1: 'WebP → PNG онлайн',
     subtitle: 'Конвертация WebP в PNG без потери прозрачности.',
-    bullets: ['WebP в PNG', 'Сохранение прозрачности', 'Высокое качество'],
-    meta: {
-      title: 'Конвертировать WebP в PNG онлайн',
-      description: 'Онлайн-конвертер WebP в PNG. Сохраняет прозрачность и качество.'
-    }
+    bullets: ['WebP в PNG', 'Сохранение прозрачности', 'Высокое качество']
   },
   {
     slug: 'convert-png-to-webp',
@@ -169,11 +117,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Преобразуйте PNG в WebP для экономии места и ускорения загрузки.',
     h1: 'PNG → WebP онлайн',
     subtitle: 'Конвертация PNG в WebP с сохранением качества.',
-    bullets: ['PNG в WebP', 'Меньший размер', 'Быстро и просто'],
-    meta: {
-      title: 'Конвертировать PNG в WebP онлайн',
-      description: 'Онлайн-конвертер PNG в WebP. Быстрое преобразование без потери качества.'
-    }
+    bullets: ['PNG в WebP', 'Меньший размер', 'Быстро и просто']
   },
   {
     slug: 'convert-jpeg-to-webp',
@@ -181,11 +125,7 @@ export const pages: OptimizePageConfig[] = [
     description: 'Преобразуйте JPEG в WebP для современных сайтов и приложений.',
     h1: 'JPEG → WebP онлайн',
     subtitle: 'Конвертация JPEG в WebP с минимальными потерями.',
-    bullets: ['JPEG в WebP', 'Современный формат', 'Высокая скорость'],
-    meta: {
-      title: 'Конвертировать JPEG в WebP онлайн',
-      description: 'Онлайн-конвертер JPEG в WebP. Быстро, удобно, без потери качества.'
-    }
+    bullets: ['JPEG в WebP', 'Современный формат', 'Высокая скорость']
   },
   // ...добавить остальные страницы по structure.md при необходимости
 ] 
