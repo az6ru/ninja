@@ -4,14 +4,32 @@
   "outputDirectory": "dist/public",
   "installCommand": "npm install",
   "framework": null,
-  "rewrites": [
+  "functions": {
+    "api/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "src": "/api/optimize",
+      "dest": "/api/optimize.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "src": "/api/download-zip",
+      "dest": "/api/download-zip.js"
+    },
+    {
+      "src": "/api/stats",
+      "dest": "/api/stats.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/routes.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "headers": [
