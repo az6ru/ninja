@@ -91,13 +91,28 @@ export function ImageOptimizerApp() {
         formData.append('settings', JSON.stringify(settings));
 
         try {
-          const response = await fetch('/api/optimize', {
+          // Для обработки ошибки 405 добавляем полный URL API и настройки CORS
+          const apiUrl = window.location.hostname === 'localhost' 
+            ? '/api/optimize' 
+            : `${window.location.origin}/api/optimize`;
+            
+          console.log('Sending optimize request to:', apiUrl);
+          
+          const response = await fetch(apiUrl, {
             method: 'POST',
             body: formData,
+            headers: {
+              'Accept': 'application/json',
+            },
+            mode: 'cors', // Явно указываем режим CORS
           });
 
+          console.log('Optimize response status:', response.status);
+          
           if (!response.ok) {
-            throw new Error('Optimization failed');
+            const errorText = await response.text();
+            console.error('API error response:', errorText);
+            throw new Error(`Optimization failed: ${response.status} ${errorText}`);
           }
 
           const result = await response.json();
@@ -231,9 +246,16 @@ export function ImageOptimizerApp() {
         setZipProgress(Math.round(((idx + 1) / completedImages.length) * 50)); // 0-50%: подготовка файлов
       });
       // Отправляем FormData на сервер
-      const response = await fetch('/api/download-zip', {
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? '/api/download-zip' 
+        : `${window.location.origin}/api/download-zip`;
+        
+      console.log('Sending download-zip request to:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         body: formData,
+        mode: 'cors', // Явно указываем режим CORS
       });
       setZipProgress(80); // 80% — сервер формирует архив
       if (!response.ok) {
