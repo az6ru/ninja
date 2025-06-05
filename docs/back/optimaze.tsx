@@ -301,8 +301,8 @@ export default function ImageOptimizer() {
           <Card className="mb-8">
             <CardContent className="p-8">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">Загрузите ваши изображения</h3>
-                <p className="text-slate-600">Перетащите изображения сюда или нажмите для выбора файлов</p>
+                <h2 className="text-2xl font-semibold text-slate-800 mb-2">Загрузите ваши изображения</h2>
+                <h3 className="text-slate-600 font-normal">Перетащите изображения сюда или нажмите для выбора файлов</h3>
               </div>
 
               {/* Upload Zone */}
@@ -318,10 +318,10 @@ export default function ImageOptimizer() {
                 <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
                   <Upload className="text-blue-500 text-2xl" />
                 </div>
-                <h4 className="text-lg font-medium text-slate-700 mb-2">Перетащите изображения сюда</h4>
-                <p className="text-slate-500 mb-4">
+                <h3 className="text-lg font-medium text-slate-700 mb-2">Перетащите изображения сюда</h3>
+                <h4 className="text-slate-500 mb-4 font-normal">
                   или <span className="text-blue-500 font-medium">нажмите для выбора</span>
-                </p>
+                </h4>
                 <p className="text-sm text-slate-400">Поддерживает JPEG, PNG, WebP, AVIF • Максимум 10МБ на файл</p>
               </div>
 

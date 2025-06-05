@@ -24,7 +24,7 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold hover:text-blue-200">
           <span className="text-2xl">🥷</span>
-          <span>imageninja.ru</span>
+          <span>ImageNinja.ru</span>
         </Link>
         {/* Desktop nav */}
         <nav className="hidden md:flex gap-4">
