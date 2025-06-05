@@ -521,59 +521,35 @@ export function ImageOptimizerApp() {
       {showResults && completedImages.length > 0 && (
         <Card ref={resultsRef}>
           <CardContent className="p-8">
-            {/* Верхний блок с информацией о файле и кнопкой скачать */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-              <div className="flex items-center gap-4">
-                <img src={completedImages[0].preview} alt={completedImages[0].file.name} className="w-14 h-14 rounded-lg object-cover" />
-                <div>
-                  <div className="font-medium text-slate-800 truncate max-w-xs">{completedImages[0].file.name}</div>
-                  <div className="text-xs text-slate-600">
-                    Оригинал: {(completedImages[0].originalSize / 1024 / 1024).toFixed(2)} MB
-                    <span className="text-green-700 ml-2">Оптимизировано: {((completedImages[0].optimizedSize || 0) / 1024 / 1024).toFixed(2)} MB</span>
-                    <span className="text-green-700 ml-2">Сжатие: {completedImages[0].compressionRatio}%</span>
-                  </div>
-                </div>
-              </div>
-              <Button
-                onClick={() => downloadImage(completedImages[0])}
-                className="bg-blue-500 hover:bg-blue-600 h-10 px-6 text-base w-full sm:w-auto mt-2 sm:mt-0"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Скачать
-              </Button>
-            </div>
-
             {/* Individual Results List - теперь в начале карточки */}
-            {completedImages.length > 1 && (
-              <div className="divide-y divide-slate-200 mb-8">
-                {completedImages.slice(1).map((image) => (
-                  <div key={image.id} className="flex gap-3 py-3">
-                    <div className="w-16 h-16 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0">
-                      <img
-                        src={image.preview}
-                        alt={image.file.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0 flex flex-col justify-center">
-                      <h4 className="font-medium text-slate-800 line-clamp-1 break-all text-sm" title={image.file.name}>{image.file.name}</h4>
-                      <div className="flex flex-wrap gap-2 text-xs mt-1">
-                        <span className="text-slate-500">Оригинал: {(image.originalSize / 1024 / 1024).toFixed(2)} MB</span>
-                        <span className="text-green-600">Оптимизировано: {((image.optimizedSize || 0) / 1024 / 1024).toFixed(2)} MB</span>
-                        <span className="text-green-600 font-medium">Сжатие: {image.compressionRatio}%</span>
-                      </div>
-                      <Button
-                        onClick={() => downloadImage(image)}
-                        className="bg-blue-500 hover:bg-blue-600 h-10 px-6 text-base w-auto mt-2 sm:mt-0 sm:w-auto"
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Скачать
-                      </Button>
+            <div className="divide-y divide-slate-200 mb-8">
+              {completedImages.map((image) => (
+                <div key={image.id} className="flex flex-col md:flex-row gap-3 py-3 items-stretch md:items-center">
+                  <div className="w-16 h-16 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0 self-center md:self-auto">
+                    <img
+                      src={image.preview}
+                      alt={image.file.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <h4 className="font-medium text-slate-800 line-clamp-1 break-all text-sm" title={image.file.name}>{image.file.name}</h4>
+                    <div className="flex flex-wrap gap-2 text-xs mt-1">
+                      <span className="text-slate-500">Оригинал: {(image.originalSize / 1024 / 1024).toFixed(2)} MB</span>
+                      <span className="text-green-600">Оптимизировано: {((image.optimizedSize || 0) / 1024 / 1024).toFixed(2)} MB</span>
+                      <span className="text-green-600 font-medium">Сжатие: {image.compressionRatio}%</span>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+                  <Button
+                    onClick={() => downloadImage(image)}
+                    className="bg-blue-500 hover:bg-blue-600 h-10 px-3 text-xs w-full md:w-auto md:ml-4 md:self-center order-2 md:order-none mt-2 md:mt-0"
+                  >
+                    <Download className="w-3 h-3 mr-1" />
+                    Скачать
+                  </Button>
+                </div>
+              ))}
+            </div>
 
             <div className="flex justify-between items-center mb-6">
               <div>
