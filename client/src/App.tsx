@@ -7,6 +7,7 @@ import { OptimizePageRouter } from "@/pages/OptimizePageRouter";
 import { useEffect } from "react";
 import { YM_COUNTER_ID } from "@/lib/yandex-metrika";
 import FaqPage from "@/pages/FaqPage";
+import DonateSuccessPage from './pages/donate-success'
 
 // Добавляем типы для Яндекс Метрики
 declare global {
@@ -50,6 +51,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/faq" component={FaqPage} />
+      <Route path="/donate-success" component={DonateSuccessPage} />
       {seoPaths.map(path => (
         <Route key={path} path={path} component={OptimizePageRouter} />
       ))}

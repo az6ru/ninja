@@ -5,6 +5,7 @@
  * @created: 2024-06-05
  */
 import { Link } from 'wouter'
+import { SupportDonateModal } from './SupportDonateModal'
 
 const serviceLinks = [
   { href: '/', label: 'Сжать фото онлайн' },
@@ -75,16 +76,23 @@ export function Footer() {
         </div>
         {/* Разделитель */}
         <div className="w-full border-t border-slate-700 mb-6" />
-        {/* Описание и копирайт */}
-        <div className="flex flex-col gap-2 items-start">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🥷</span>
-            <span className="text-xl font-bold">imageninja.ru</span>
+        {/* Нижний блок: описание и поддержка */}
+        <div className="w-full flex flex-col md:flex-row justify-between items-start gap-8 mt-8">
+          {/* Описание и копирайт */}
+          <div className="flex-1 flex flex-col gap-2 items-start">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🥷</span>
+              <span className="text-xl font-bold">imageninja.ru</span>
+            </div>
+            <p className="text-slate-300 max-w-xl text-sm">
+              Быстрая и бесплатная оптимизация изображений для веба и социальных сетей. Сохраняйте качество, экономьте трафик и ускоряйте загрузку сайтов!
+            </p>
+            <p className="text-slate-400 text-xs mt-2">&copy; {new Date().getFullYear()} imageninja.ru — Все права защищены.</p>
           </div>
-          <p className="text-slate-300 max-w-xl text-sm">
-            Быстрая и бесплатная оптимизация изображений для веба и социальных сетей. Сохраняйте качество, экономьте трафик и ускоряйте загрузку сайтов!
-          </p>
-          <p className="text-slate-400 text-xs mt-2">&copy; {new Date().getFullYear()} imageninja.ru — Все права защищены.</p>
+          {/* Кнопка поддержки справа */}
+          <div className="flex-1 flex justify-end items-start w-full max-w-md">
+            <SupportDonateModal />
+          </div>
         </div>
       </div>
     </footer>
