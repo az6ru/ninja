@@ -437,7 +437,7 @@ export function ImageOptimizerApp() {
                     const originalExt = image.file.name.split('.').pop()?.toLowerCase();
                     const isFormatChange = selectedFormat !== 'keep' && originalExt !== selectedFormat;
                     return (
-                      <div key={image.id} className="flex items-center gap-6 py-6 relative">
+                      <div key={image.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-6 py-6 relative">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -454,7 +454,7 @@ export function ImageOptimizerApp() {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-medium text-slate-800 line-clamp-2 break-all" title={image.file.name}>{image.file.name}</h5>
+                          <h5 className="font-medium text-slate-800 line-clamp-2 break-all pr-8" title={image.file.name}>{image.file.name}</h5>
                           <div className="flex flex-wrap gap-4 text-sm mt-1">
                             <span className="text-slate-500">{(image.originalSize / 1024 / 1024).toFixed(2)} МБ</span>
                             {image.status === 'completed' && image.compressionRatio && (
@@ -496,7 +496,7 @@ export function ImageOptimizerApp() {
                 <Button
                   onClick={optimizeImages}
                   disabled={isProcessing}
-                  className="w-full bg-blue-500 hover:bg-blue-600"
+                  className="w-full bg-blue-500 hover:bg-blue-600 h-12"
                   size="lg"
                 >
                   {isProcessing ? (
@@ -524,29 +524,29 @@ export function ImageOptimizerApp() {
             {/* Individual Results List - теперь в начале карточки */}
             <div className="divide-y divide-slate-200 mb-8">
               {completedImages.map((image) => (
-                <div key={image.id} className="flex items-center gap-6 py-6">
-                  <div className="w-20 h-20 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0">
+                <div key={image.id} className="flex gap-3 py-3">
+                  <div className="w-16 h-16 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0">
                     <img
                       src={image.preview}
                       alt={image.file.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-slate-800 line-clamp-2 break-all" title={image.file.name}>{image.file.name}</h4>
-                    <div className="flex flex-wrap gap-4 text-sm mt-1">
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <h4 className="font-medium text-slate-800 line-clamp-1 break-all text-sm" title={image.file.name}>{image.file.name}</h4>
+                    <div className="flex flex-wrap gap-2 text-xs mt-1">
                       <span className="text-slate-500">Оригинал: {(image.originalSize / 1024 / 1024).toFixed(2)} MB</span>
                       <span className="text-green-600">Оптимизировано: {((image.optimizedSize || 0) / 1024 / 1024).toFixed(2)} MB</span>
-                      <span className="text-green-600 font-bold">Сжатие: {image.compressionRatio}%</span>
+                      <span className="text-green-600 font-medium">Сжатие: {image.compressionRatio}%</span>
                     </div>
+                    <Button
+                      onClick={() => downloadImage(image)}
+                      className="bg-blue-500 hover:bg-blue-600 h-10 px-3 text-xs w-full mt-2"
+                    >
+                      <Download className="w-3 h-3 mr-1" />
+                      Скачать
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => downloadImage(image)}
-                    className="ml-4 bg-blue-500 hover:bg-blue-600 sm:w-auto w-full sm:mt-0 mt-4 h-12"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Скачать
-                  </Button>
                 </div>
               ))}
             </div>
