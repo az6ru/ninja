@@ -89,13 +89,10 @@ export function serveStatic(app: Express) {
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
     try {
-      log(`Serving static file for URL: ${url}`, "serveStatic");
       const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
-      log(`Loading entry-server.js from: ${path.resolve(ssrDistPath, 'entry-server.js')}`, "serveStatic");
       const { render } = await import(path.resolve(ssrDistPath, 'entry-server.js'));
 
       const { html: appHtml, helmet } = render({ path: url });
-      log(`Helmet state after SSR: ${JSON.stringify(helmet?.toComponent?.()?.props)}`, "serveStatic");
 
       const finalHtml = injectMeta(template, helmet)
         .replace(`<!--ssr-outlet-->`, appHtml);
@@ -103,7 +100,6 @@ export function serveStatic(app: Express) {
       res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
 
     } catch (e) {
-      log(`SSR Error in serveStatic: ${e instanceof Error ? e.message : String(e)}`, "serveStatic");
       const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
       res.status(500).set({ 'Content-Type': 'text/html' }).end(template);
     }
