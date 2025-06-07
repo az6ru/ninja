@@ -84,7 +84,7 @@ export function serveStatic(app: Express) {
     );
   }
 
-  app.use(express.static(distPath));
+  app.use(express.static(distPath, { index: false }));
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;

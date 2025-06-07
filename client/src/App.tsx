@@ -9,7 +9,8 @@ import { YM_COUNTER_ID } from "@/lib/yandex-metrika";
 import FaqPage from "@/pages/FaqPage";
 import DonateSuccessPage from './pages/donate-success'
 import pages from "./config/pages.json";
-import { Helmet } from "react-helmet-async";
+import pkg from "react-helmet-async/lib/index.js";
+const { Helmet } = pkg;
 
 // Добавляем типы для Яндекс Метрики
 declare global {
