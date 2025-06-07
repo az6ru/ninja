@@ -8,8 +8,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Router } from 'wouter';
-import pkg from 'react-helmet-async';
-const { HelmetProvider } = pkg;
+import { HelmetProvider } from 'react-helmet-async';
 import type { HelmetServerState } from 'react-helmet-async';
 
 import App from './App'; // Ваш главный компонент-роутер теперь импортируется как App
