@@ -4,7 +4,7 @@
  * @dependencies: react, Helmet
  * @created: 2024-06-07
  */
-import pkg from 'react-helmet-async';
+import pkg from 'react-helmet-async/lib/index.js';
 const { Helmet } = pkg;
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
