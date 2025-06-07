@@ -4,6 +4,7 @@
  * @dependencies: OptimizePage, Helmet, pages.config.ts
  * @created: 2024-06-05
  */
+
 import { Helmet } from 'react-helmet-async';
 import { pages, getPages } from '@/config/pages.config'
 import { OptimizePage } from '@/components/OptimizePage'
