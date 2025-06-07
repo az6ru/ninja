@@ -5,6 +5,7 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import { pages } from "../client/src/config/pages.config";
 
 const viteLogger = createLogger();
 
@@ -17,6 +18,31 @@ export function log(message: string, source = "express") {
   });
 
   console.log(`${formattedTime} [${source}] ${message}`);
+}
+
+function injectMeta(html: string, pathname: string): string {
+  // Normalize path, removing leading and trailing slashes
+  const normalized = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
+  const slug = normalized === "" ? "" : normalized;
+  let page: any = (pages as any[]).find((p) => p.slug === slug);
+
+  if (slug === "faq") {
+    page = {
+      slug: "faq",
+      title: "Часто задаваемые вопросы об оптимизации изображений — ImageNinja",
+      description:
+        "Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое.",
+    };
+  }
+
+  if (!page) return html.replace("<!--ssr-head-->", "");
+
+  const baseUrl = "https://imageninja.ru";
+  const pageUrl = `${baseUrl}${page.slug ? `/${page.slug}` : "/"}`;
+
+  const meta = `\n      <title>${page.title}</title>\n      <meta name="description" content="${page.description}" />\n      <link rel="canonical" href="${pageUrl}" />\n      <meta property="og:type" content="website" />\n      <meta property="og:locale" content="ru_RU" />\n      <meta property="og:site_name" content="ImageNinja" />\n      <meta property="og:title" content="${page.title}" />\n      <meta property="og:description" content="${page.description}" />\n      <meta property="og:url" content="${pageUrl}" />\n      <meta property="og:image" content="${baseUrl}/assets/images/seo-cover.webp" />\n      <meta name="twitter:card" content="summary_large_image" />\n      <meta name="twitter:title" content="${page.title}" />\n      <meta name="twitter:description" content="${page.description}" />\n      <meta name="twitter:image" content="${baseUrl}/assets/images/seo-cover.webp" />`;
+
+  return html.replace("<!--ssr-head-->", meta);
 }
 
 export async function setupVite(app: Express, server: Server) {
@@ -51,8 +77,7 @@ export async function setupVite(app: Express, server: Server) {
       const { render } = await vite.ssrLoadModule('/src/entry-server.tsx')
       const { html: appHtml, helmet } = render({ path: url })
 
-      template = template
-        .replace(`<!--ssr-head-->`, helmet.title.toString() + helmet.meta.toString() + helmet.link.toString())
+      template = injectMeta(template, url)
         .replace(`<!--ssr-outlet-->`, appHtml);
 
       res.status(200).set({ "Content-Type": "text/html" }).end(template);
@@ -83,8 +108,7 @@ export function serveStatic(app: Express) {
 
       const { html: appHtml, helmet } = render({ path: url });
 
-      const finalHtml = template
-        .replace(`<!--ssr-head-->`, helmet.title.toString() + helmet.meta.toString() + helmet.link.toString())
+      const finalHtml = injectMeta(template, url)
         .replace(`<!--ssr-outlet-->`, appHtml);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
