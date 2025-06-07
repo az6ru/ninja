@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && tsx scripts/prerender.ts && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "npm run build:client && npm run build:server-ssr && npm run build:server-express && tsx scripts/prerender.ts",
+    "build:client": "vite build --outDir dist/public",
+    "build:server-ssr": "vite build --ssr client/src/entry-server.tsx --outDir dist/server",
+    "build:server-express": "esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/index.js",
     "start": "NODE_ENV=production node dist/index.js",
     "vercel-build": "npm run build",
     "check": "tsc",

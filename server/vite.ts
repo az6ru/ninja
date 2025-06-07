@@ -21,9 +21,7 @@ export function log(message: string, source = "express") {
 }
 
 function injectMeta(html: string, pathname: string): string {
-  // Normalize and decode the path, removing leading/trailing slashes
-  const decoded = decodeURIComponent(pathname);
-  const normalized = decoded.replace(/^\/+/, "").replace(/\/+$/, "");
+  const normalized = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
   const slug = normalized === "" ? "" : normalized;
   let page: any = (pages as any[]).find((p) => p.slug === slug);
 
@@ -64,9 +62,7 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
-      if (/\.\w+$/.test(url)) {
-        return next();
-      }
+      if (/\.\w+$/.test(url)) return next();
 
       let template = await fs.promises.readFile(
         path.resolve(import.meta.dirname, "..", "client", "index.html"),
@@ -75,7 +71,16 @@ export async function setupVite(app: Express, server: Server) {
 
       template = await vite.transformIndexHtml(url, template);
 
-      template = injectMeta(template, req.path);
+      try {
+        const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
+        const { html: appHtml, helmet } = render({ path: url });
+
+        template = template
+          .replace("<!--ssr-head-->", helmet.title.toString() + helmet.meta.toString() + helmet.link.toString())
+          .replace("<!--ssr-outlet-->", appHtml);
+      } catch (e) {
+        template = injectMeta(template, req.path);
+      }
 
       res.status(200).set({ "Content-Type": "text/html" }).end(template);
     } catch (e) {
@@ -87,19 +92,35 @@ export async function setupVite(app: Express, server: Server) {
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(import.meta.dirname, "public");
+  const ssrDistPath = path.resolve(import.meta.dirname, "server");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      `Could not find the client build directory: ${distPath}, make sure to build the client first`,
     );
   }
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (req, res) => {
-    const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
-    const html = injectMeta(template, req.path);
-    res.send(html);
+  app.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+      const { render } = await import(path.resolve(ssrDistPath, 'entry-server.js'));
+
+      const { html: appHtml, helmet } = render({ path: url });
+
+      const finalHtml = template
+        .replace("<!--ssr-head-->", helmet.title.toString() + helmet.meta.toString() + helmet.link.toString())
+        .replace("<!--ssr-outlet-->", appHtml);
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
+
+    } catch (e) {
+      log(`SSR Error: ${e instanceof Error ? e.message : String(e)}`);
+      const fallback = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+      const html = injectMeta(fallback, req.path);
+      res.status(500).set({ 'Content-Type': 'text/html' }).end(html);
+    }
   });
 }
