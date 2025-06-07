@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { YM_COUNTER_ID } from "@/lib/yandex-metrika";
 import FaqPage from "@/pages/FaqPage";
 import DonateSuccessPage from './pages/donate-success'
+import pages from "./config/pages.json";
+import { Helmet } from "react-helmet-async";
 
 // Добавляем типы для Яндекс Метрики
 declare global {
@@ -47,6 +49,45 @@ function YandexMetrikaObserver() {
   return null;
 }
 
+function SeoHead() {
+  const [location] = useLocation();
+  const currentPath = location === "/" ? "" : location.replace(/^\//, "");
+  console.log(`[SeoHead] Current location: ${location}`);
+  console.log(`[SeoHead] Current path (slug): ${currentPath}`);
+
+  const page = (pages as any[]).find((p) => p.slug === currentPath);
+  console.log(`[SeoHead] Found page data: ${JSON.stringify(page)}`);
+
+  if (!page) {
+    console.log(`[SeoHead] No page data found for path: ${currentPath}`);
+    return null;
+  }
+
+  const baseUrl = "https://imageninja.ru";
+  const pageUrl = `${baseUrl}${page.slug ? `/${page.slug}` : "/"}`;
+  console.log(`[SeoHead] Base URL: ${baseUrl}`);
+  console.log(`[SeoHead] Page URL: ${pageUrl}`);
+
+  return (
+    <Helmet>
+      <title>{page.title}</title>
+      <meta name="description" content={page.description} />
+      <link rel="canonical" href={pageUrl} />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="ru_RU" />
+      <meta property="og:site_name" content="ImageNinja" />
+      <meta property="og:title" content={page.title} />
+      <meta property="og:description" content={page.description} />
+      <meta property="og:url" content={pageUrl} />
+      <meta property="og:image" content={`${baseUrl}/assets/images/seo-cover.webp`} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={page.title} />
+      <meta name="twitter:description" content={page.description} />
+      <meta name="twitter:image" content={`${baseUrl}/assets/images/seo-cover.webp`} />
+    </Helmet>
+  );
+}
+
 function Router() {
   return (
     <Switch>
@@ -66,6 +107,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <YandexMetrikaObserver />
+        <SeoHead />
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
