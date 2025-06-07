@@ -4,7 +4,8 @@
  * @dependencies: wouter, react-helmet-async, pages.config.ts, OptimizePage, NotFound
  * @created: 2024-06-05
  */
-import { Helmet } from 'react-helmet-async'
+import pkg from 'react-helmet-async';
+const { Helmet } = pkg;
 import { pages, getPages } from '@/config/pages.config'
 import { OptimizePage } from '@/components/OptimizePage'
 import { Header } from '@/components/Header'
