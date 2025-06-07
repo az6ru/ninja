@@ -4,8 +4,7 @@ import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
-import { nanoid } from "nanoid";
-import pages from "../client/src/config/pages.json" assert { type: "json" };
+import { HelmetServerState } from "react-helmet-async";
 
 const viteLogger = createLogger();
 
@@ -20,25 +19,14 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-function injectMeta(html: string, pathname: string): string {
-  const slug = pathname === "/" ? "" : pathname.replace(/^\//, "");
-  let page: any = (pages as any[]).find((p) => p.slug === slug);
+function injectMeta(html: string, helmet: HelmetServerState): string {
+  const meta = `
+      ${helmet.title.toString()}
 
-  if (slug === "faq") {
-    page = {
-      slug: "faq",
-      title: "Часто задаваемые вопросы об оптимизации изображений — ImageNinja",
-      description:
-        "Ответы на часто задаваемые вопросы о сервисе оптимизации изображений ImageNinja. Узнайте как сжимать изображения без потери качества, конвертировать форматы и многое другое.",
-    };
-  }
+      ${helmet.meta.toString()}
 
-  if (!page) return html.replace("<!--ssr-head-->", "");
-
-  const baseUrl = "https://imageninja.ru";
-  const pageUrl = `${baseUrl}${page.slug ? `/${page.slug}` : "/"}`;
-
-  const meta = `\n      <title>${page.title}</title>\n      <meta name="description" content="${page.description}" />\n      <link rel="canonical" href="${pageUrl}" />\n      <meta property="og:type" content="website" />\n      <meta property="og:locale" content="ru_RU" />\n      <meta property="og:site_name" content="ImageNinja" />\n      <meta property="og:title" content="${page.title}" />\n      <meta property="og:description" content="${page.description}" />\n      <meta property="og:url" content="${pageUrl}" />\n      <meta property="og:image" content="${baseUrl}/assets/images/seo-cover.webp" />\n      <meta name="twitter:card" content="summary_large_image" />\n      <meta name="twitter:title" content="${page.title}" />\n      <meta name="twitter:description" content="${page.description}" />\n      <meta name="twitter:image" content="${baseUrl}/assets/images/seo-cover.webp" />`;
+      ${helmet.link.toString()}
+  `;
 
   return html.replace("<!--ssr-head-->", meta);
 }
@@ -72,7 +60,11 @@ export async function setupVite(app: Express, server: Server) {
 
       template = await vite.transformIndexHtml(url, template);
 
-      template = injectMeta(template, req.path);
+      const { render } = await vite.ssrLoadModule('/src/entry-server.tsx')
+      const { html: appHtml, helmet } = render({ path: url })
+
+      template = injectMeta(template, helmet)
+        .replace(`<!--ssr-outlet-->`, appHtml);
 
       res.status(200).set({ "Content-Type": "text/html" }).end(template);
     } catch (e) {
@@ -84,6 +76,7 @@ export async function setupVite(app: Express, server: Server) {
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(import.meta.dirname, "public");
+  const ssrDistPath = path.resolve(import.meta.dirname, "server");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
@@ -93,10 +86,23 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (req, res) => {
-    const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
-    const html = injectMeta(template, req.path);
-    res.send(html);
+  app.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+      const { render } = await import(path.resolve(ssrDistPath, 'entry-server.js'));
+
+      const { html: appHtml, helmet } = render({ path: url });
+
+      const finalHtml = injectMeta(template, helmet)
+        .replace(`<!--ssr-outlet-->`, appHtml);
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
+
+    } catch (e) {
+      log(`SSR Error: ${e instanceof Error ? e.message : String(e)}`);
+      const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+      res.status(500).set({ 'Content-Type': 'text/html' }).end(template);
+    }
   });
 }
