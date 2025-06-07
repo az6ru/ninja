@@ -21,7 +21,9 @@ export function log(message: string, source = "express") {
 }
 
 function injectMeta(html: string, pathname: string): string {
-  const slug = pathname === "/" ? "" : pathname.replace(/^\//, "");
+  // Normalize path, removing leading and trailing slashes
+  const normalized = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
+  const slug = normalized === "" ? "" : normalized;
   let page: any = (pages as any[]).find((p) => p.slug === slug);
 
   if (slug === "faq") {
