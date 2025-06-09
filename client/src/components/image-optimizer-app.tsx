@@ -28,6 +28,7 @@ import {
 import type { ImageFile, OptimizationSettings } from "@shared/schema";
 import { Header } from "@/components/Header";
 import { sendYandexMetrikaGoal, YandexMetrikaGoal } from "@/lib/yandex-metrika";
+import { AdSlot } from '@/components/AdSlot'
 
 export function ImageOptimizerApp() {
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -266,6 +267,7 @@ export function ImageOptimizerApp() {
     setZipProgress(0);
     setZipError(null);
     try {
+      console.log('=== ZIP HANDLER STARTED ===');
       const formData = new FormData();
       completedImages.forEach((img, idx) => {
         const getFileName = () => {
@@ -293,10 +295,11 @@ export function ImageOptimizerApp() {
         mode: 'cors', // Явно указываем режим CORS
       });
       setZipProgress(80); // 80% — сервер формирует архив
-      if (!response.ok) {
-        const errorText = await response.text();
+      const contentType = response.headers.get('content-type') || '';
+      if (!response.ok || !contentType.includes('application/zip')) {
         let reason = 'Не удалось создать ZIP файл';
         try {
+          const errorText = await response.text();
           const errJson = JSON.parse(errorText);
           if (errJson.error) reason = errJson.error;
         } catch {}
@@ -355,6 +358,8 @@ export function ImageOptimizerApp() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Рекламный блок над дропзоной */}
+      <AdSlot slot="above-dropzone" />
       {/* Upload Section */}
       {!showResults && (
         <Card className="mb-8">
@@ -430,7 +435,7 @@ export function ImageOptimizerApp() {
 
             {/* Selected Images */}
             {images.length > 0 && (
-              <div className="mt-8">
+              <div className="mt-8 relative">
                 <h4 className="text-lg font-medium text-slate-700 mb-4">Выбранные изображения ({images.length})</h4>
                 <div className="divide-y divide-slate-200 mb-6">
                   {images.map((image) => {
@@ -493,24 +498,37 @@ export function ImageOptimizerApp() {
                     );
                   })}
                 </div>
-                <Button
-                  onClick={optimizeImages}
-                  disabled={isProcessing}
-                  className="w-full bg-blue-500 hover:bg-blue-600 h-12"
-                  size="lg"
+                {/* Sticky/FIxed Optimize Button */}
+                <div
+                  className="sticky bottom-0 z-30 w-full flex justify-center bg-white/80 backdrop-blur border-t border-slate-200 pt-4 pb-2
+                    md:static md:bg-transparent md:backdrop-blur-none md:border-0 md:pt-0 md:pb-0"
+                  style={{
+                    position: 'sticky',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 30,
+                  }}
                 >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Оптимизация изображений...
-                    </>
-                  ) : (
-                    <>
-                      <Combine className="w-4 h-4 mr-2" />
-                      Оптимизировать {images.length} {images.length === 1 ? 'изображение' : images.length < 5 ? 'изображения' : 'изображений'}
-                    </>
-                  )}
-                </Button>
+                  <Button
+                    onClick={optimizeImages}
+                    disabled={isProcessing}
+                    className="w-full bg-blue-500 hover:bg-blue-600 h-12 shadow-lg"
+                    size="lg"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Оптимизировано {images.filter(img => img.status === 'completed').length} из {images.length}
+                      </>
+                    ) : (
+                      <>
+                        <Combine className="w-4 h-4 mr-2" />
+                        Оптимизировать {images.length} {images.length === 1 ? 'изображение' : images.length < 5 ? 'изображения' : 'изображений'}
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             )}
           </CardContent>

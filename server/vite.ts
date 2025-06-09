@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
 import { HelmetServerState } from "react-helmet-async";
 
 const viteLogger = createLogger();
@@ -33,14 +32,14 @@ function injectMeta(html: string, helmet: HelmetServerState): string {
 
 export async function setupVite(app: Express, server: Server) {
   const vite = await createViteServer({
-    ...viteConfig,
-    configFile: false,
-    customLogger: viteLogger,
+    configFile: path.resolve(process.cwd(), "client/vite.config.ts"),
     server: {
       middlewareMode: true,
       hmr: { server },
     },
     appType: "custom",
+    root: path.resolve(process.cwd(), "client"),
+    base: '/',
   });
 
   app.use(vite.middlewares);
@@ -54,14 +53,15 @@ export async function setupVite(app: Express, server: Server) {
       }
 
       let template = await fs.promises.readFile(
-        path.resolve(import.meta.dirname, "..", "client", "index.html"),
+        path.resolve(process.cwd(), "client", "index.html"),
         "utf-8"
       );
 
       template = await vite.transformIndexHtml(url, template);
 
-      const { render } = await vite.ssrLoadModule('/src/entry-server.tsx')
-      const { html: appHtml, helmet } = render({ path: url })
+      const entryPath = path.resolve(process.cwd(), "client/src/entry-server.tsx");
+      const { render } = await vite.ssrLoadModule(entryPath);
+      const { html: appHtml, helmet } = render({ path: url });
 
       template = injectMeta(template, helmet)
         .replace(`<!--ssr-outlet-->`, appHtml);
@@ -75,8 +75,8 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
-  const ssrDistPath = path.resolve(import.meta.dirname, "..", "dist", "server");
+  const distPath = path.resolve(process.cwd(), "dist/public");
+  const ssrDistPath = path.resolve(process.cwd(), "dist/server");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(

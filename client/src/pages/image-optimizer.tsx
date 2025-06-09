@@ -5,8 +5,7 @@
  * @created: 2024-06-05
  */
 
-import pkg from 'react-helmet-async/lib/index.js';
-const { Helmet } = pkg;
+import { Helmet } from 'react-helmet-async';
 import { pages, getPages } from '@/config/pages.config'
 import { OptimizePage } from '@/components/OptimizePage'
 import { useEffect, useState } from 'react'

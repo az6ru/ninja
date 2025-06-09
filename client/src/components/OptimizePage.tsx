@@ -10,6 +10,7 @@ import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { YandexAds } from '@/components/YandexAds'
 import { HeroSection } from './HeroSection'
+import { AdSlot } from '@/components/AdSlot'
 
 export function OptimizePage(props: OptimizePageConfig) {
   return (
@@ -26,7 +27,7 @@ export function OptimizePage(props: OptimizePageConfig) {
       
       {/* Рекламный блок после основного контента */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
-        <YandexAds blockId="R-A-15762893-1" className="mb-8" />
+        <AdSlot slot="footer" />
       </div>
       
       <Footer />

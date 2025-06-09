@@ -4,11 +4,11 @@
  * @dependencies: react, Helmet
  * @created: 2024-06-07
  */
-import pkg from 'react-helmet-async/lib/index.js';
-const { Helmet } = pkg;
+import { Helmet } from 'react-helmet-async';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { YandexAds } from '@/components/YandexAds';
+import { AdSlot } from '@/components/AdSlot';
 
 export default function FaqPage() {
   const baseUrl = 'https://imageninja.ru';
@@ -71,7 +71,7 @@ export default function FaqPage() {
           />
           
           <div className="my-8">
-            <YandexAds blockId="R-A-15762893-1" />
+            <AdSlot slot="footer" />
           </div>
           
           <FaqItem 

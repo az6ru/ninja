@@ -6,34 +6,49 @@ import history from 'connect-history-api-fallback'
 
 const isProduction = process.env.NODE_ENV === "production";
 
+// Общие настройки для всех режимов
+const commonConfig = {
+  resolve: {
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve(process.cwd(), 'client/src')
+      },
+      {
+        find: '@shared',
+        replacement: path.resolve(process.cwd(), 'shared')
+      },
+      {
+        find: '@assets',
+        replacement: path.resolve(process.cwd(), 'attached_assets')
+      }
+    ]
+  }
+};
+
 export default defineConfig(({ command, mode }) => {
   if (command === "build" && mode === "ssr") {
     return {
+      ...commonConfig,
       plugins: [
         react(),
       ],
       build: {
         ssr: true,
-        outDir: path.resolve(import.meta.dirname, "dist/server"),
+        outDir: path.resolve(process.cwd(), "dist/server"),
         emptyOutDir: false,
         rollupOptions: {
-          input: path.resolve(import.meta.dirname, "client", "src", "entry-server.tsx"),
+          input: path.resolve(process.cwd(), "client/src/entry-server.tsx"),
           output: {
             format: 'esm',
           },
-        },
-      },
-      resolve: {
-        alias: {
-          "@": path.resolve(import.meta.dirname, "client", "src"),
-          "@shared": path.resolve(import.meta.dirname, "shared"),
-          "@assets": path.resolve(import.meta.dirname, "attached_assets"),
         },
       },
     };
   }
 
   return {
+    ...commonConfig,
     plugins: [
       react(),
       runtimeErrorOverlay(),
@@ -45,24 +60,17 @@ export default defineConfig(({ command, mode }) => {
           ]
         : []),
     ],
-    resolve: {
-      alias: {
-        "@": path.resolve(import.meta.dirname, "client", "src"),
-        "@shared": path.resolve(import.meta.dirname, "shared"),
-        "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-      },
-    },
-    root: path.resolve(import.meta.dirname, "client"),
+    root: path.resolve(process.cwd(), "client"),
     build: {
-      outDir: path.resolve(import.meta.dirname, "dist/public"),
+      outDir: path.resolve(process.cwd(), "dist/public"),
       emptyOutDir: true,
     },
     server: {
       fs: {
-        // Разрешаем доступ к файлам вне корневой директории
         allow: [
-          path.resolve(import.meta.dirname, "client"),
-          path.resolve(import.meta.dirname, "shared"),
+          path.resolve(process.cwd(), "client"),
+          path.resolve(process.cwd(), "shared"),
+          path.resolve(process.cwd(), "attached_assets"),
         ],
       },
       watch: {
