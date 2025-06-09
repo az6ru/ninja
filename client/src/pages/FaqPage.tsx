@@ -8,7 +8,6 @@ import { Helmet } from 'react-helmet-async';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { YandexAds } from '@/components/YandexAds';
-import { AdSlot } from '@/components/AdSlot';
 
 export default function FaqPage() {
   const baseUrl = 'https://imageninja.ru';
@@ -71,7 +70,7 @@ export default function FaqPage() {
           />
           
           <div className="my-8">
-            <AdSlot slot="footer" />
+            <YandexAds blockId="R-A-15762893-1" />
           </div>
           
           <FaqItem 

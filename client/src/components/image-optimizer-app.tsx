@@ -28,7 +28,6 @@ import {
 import type { ImageFile, OptimizationSettings } from "@shared/schema";
 import { Header } from "@/components/Header";
 import { sendYandexMetrikaGoal, YandexMetrikaGoal } from "@/lib/yandex-metrika";
-import { AdSlot } from '@/components/AdSlot'
 
 export function ImageOptimizerApp() {
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -358,8 +357,6 @@ export function ImageOptimizerApp() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Рекламный блок над дропзоной */}
-      <AdSlot slot="above-dropzone" />
       {/* Upload Section */}
       {!showResults && (
         <Card className="mb-8">
