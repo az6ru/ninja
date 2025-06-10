@@ -54,6 +54,21 @@ npm run build
 npm run start
 ```
 
+### Next.js приложение
+
+Для запуска экспериментальной версии на Next.js используйте:
+
+```bash
+npm run next:dev
+```
+
+Сборка и запуск в production:
+
+```bash
+npm run next:build
+npm run next:start
+```
+
 ## Структура проекта
 
 - `client/` - Frontend часть приложения (React)
