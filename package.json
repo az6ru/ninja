@@ -12,7 +12,10 @@
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "docker:build": "docker build -t sharp-optimizer .",
-    "docker:run": "docker run -p 3000:3000 sharp-optimizer"
+    "docker:run": "docker run -p 3000:3000 sharp-optimizer",
+    "next:dev": "next dev ./next-app",
+    "next:build": "next build ./next-app",
+    "next:start": "next start ./next-app"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
